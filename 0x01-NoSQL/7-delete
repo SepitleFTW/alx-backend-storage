@@ -1,0 +1,2 @@
+// del all with name  =hb school
+db.school.deleteMany({name: "Holberton school"});
