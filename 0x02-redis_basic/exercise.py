@@ -8,11 +8,13 @@ import uuid
 
 
 def count_calls(method: Callable) -> Callable:
-    '''Decorator to count the number of times a method in the Cache class is called.
+    '''Decorator to count the number
+    of times a method in the Cache class is called.
     '''
     @wraps(method)
     def wrapper(self, *args, **kwargs) -> Any:
-        '''Increments the call counter for the method and then executes it.
+        '''Increments the call counter
+        for the method and then executes it.
         '''
         if isinstance(self._redis, redis.Redis):
             self._redis.incr(method.__qualname__)
@@ -22,11 +24,13 @@ def count_calls(method: Callable) -> Callable:
 
 
 def call_history(method: Callable) -> Callable:
-    '''Decorator to record the input and output history of a method in the Cache class.
+    '''Decorator to record the input
+    and output history of a method in the Cache class.
     '''
     @wraps(method)
     def invoker(self, *args, **kwargs) -> Any:
-        '''Stores the inputs and outputs of the method and then executes it.
+        '''Stores the inputs and
+        outputs of the method and then executes it.
         '''
         in_key = '{}:inputs'.format(method.__qualname__)
         out_key = '{}:outputs'.format(method.__qualname__)
@@ -40,7 +44,8 @@ def call_history(method: Callable) -> Callable:
 
 
 def replay(fn: Callable) -> None:
-    '''Displays the recorded call history of a method in the Cache class.
+    '''Displays the recorded call
+    history of a method in the Cache class.
     '''
     if fn is None or not hasattr(fn, '__self__'):
         return
@@ -86,7 +91,7 @@ class Cache:
             key: str,
             fn: Callable = None,
             ) -> Union[str, bytes, int, float]:
-        '''Retrieves a value from Redis by key, optionally applying a transformation function.
+        '''Retrieves a value from Redis by key,
         '''
         data = self._redis.get(key)
         return fn(data) if fn is not None else data
